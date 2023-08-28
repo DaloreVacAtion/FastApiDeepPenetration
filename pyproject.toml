@@ -1,0 +1,30 @@
+[tool.poetry]
+name = "app"
+version = "0.1.0"
+description = ""
+authors = ["kirill <k.otvetchikov@zebrains.team>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastapi = "^0.98.0"
+uvicorn = "^0.22.0"
+sqlalchemy = "^2.0.19"
+loguru = "^0.7.0"
+pytest = "^7.4.0"
+httpx = "^0.24.1"
+alembic = "^1.11.2"
+python-dotenv = "^1.0.0"
+asyncpg = "^0.28.0"
+fastapi-users = {extras = ["sqlalchemy"], version = "^12.1.1"}
+pytest-asyncio = "^0.21.1"
+
+[tool.pytest.ini_options]
+pythonpath = [
+    ".", "src",
+]
+asyncio_mode = "auto"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
