@@ -1,4 +1,3 @@
-# тут получается подключаемся к БД
 from typing import AsyncGenerator
 
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession

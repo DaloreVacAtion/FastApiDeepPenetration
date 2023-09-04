@@ -9,10 +9,8 @@ app = FastAPI(
     debug=settings.DEBUG
 )
 
-# logger
 app.logger = logger
 
-# Мидлвари
 app.add_middleware(
     CORSMiddleware,
     allow_origins=['*'],

@@ -1,12 +1,8 @@
-from typing import Optional
-
 from httpx import AsyncClient
-from passlib.context import CryptContext
-from sqlalchemy import insert, text
 from sqlalchemy.ext.asyncio import AsyncSession
+from starlette import status
 
-from api.v1.crud import get_user_by_id
-from auth.models import User
+from services.users import get_user_by_id
 from tests.services import create_user, get_user_cookies, clear_users
 
 
@@ -28,7 +24,7 @@ async def test_delete_user_when_user_is_admin(
     )
     not_existing_user = await get_user_by_id(user_id, session)
     assert response is not None
-    assert response.status_code == 204
+    assert response.status_code == status.HTTP_204_NO_CONTENT
     assert not_existing_user is None
     await clear_users(session)
 

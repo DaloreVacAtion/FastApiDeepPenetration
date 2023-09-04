@@ -1,8 +1,3 @@
-"""
-*********************
-Модуль app->core->logging.py
-*********************
-"""
 import abc
 import datetime
 import logging

@@ -1,8 +1,5 @@
 """
-*********************
-Модуль app->core->settings.py \n
 Базовые настройки приложения
-*********************
 """
 import secrets
 from starlette.config import Config

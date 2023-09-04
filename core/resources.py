@@ -5,4 +5,4 @@ from pydantic import BaseModel
 
 class ServiceResult(BaseModel):
     ok: bool
-    message: Optional[str]
+    message: str | None = None

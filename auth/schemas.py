@@ -31,8 +31,8 @@ class UserUpdate(BaseModel):
 class UserRead(BaseModel):
     id: int
     username: str
-    name: Optional[str]
-    age: Optional[int]
+    name: str | None = None
+    age: int | None = None
     is_active: bool = True
     is_superuser: bool = False
     is_verified: bool = False

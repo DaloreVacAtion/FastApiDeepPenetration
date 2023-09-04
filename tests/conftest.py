@@ -77,11 +77,3 @@ async def async_client() -> AsyncGenerator[AsyncClient, None]:
 async def async_session() -> AsyncGenerator[AsyncSession, None]:
     async with async_session_maker() as session:
         yield session
-
-
-
-# @pytest.fixture(scope="session")
-# async def async_client_authorized() -> AsyncGenerator[AsyncClient, None]:
-#     app.dependency_overrides[fastapi_users.current_user] = lambda: user
-#     async with AsyncClient(app=app, base_url="http://test") as ac:
-#         yield ac

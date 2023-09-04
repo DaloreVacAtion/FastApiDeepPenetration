@@ -1,8 +1,3 @@
-"""
-*********************
-Модуль app->api->router.py
-*********************
-"""
 from fastapi import APIRouter
 from fastapi_users import FastAPIUsers
 
@@ -13,11 +8,7 @@ from auth.models import User
 from auth.schemas import UserRead, UserCreate
 from core.resources import ServiceResult
 
-"""
-Создание APIRouter для главной ветки в FastAPI
-"""
 
-# fast api users
 fastapi_users = FastAPIUsers[User, int](
     get_user_manager,
     [auth_backend]

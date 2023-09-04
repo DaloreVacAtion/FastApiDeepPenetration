@@ -1,29 +1,26 @@
 [tool.poetry]
-name = "app"
+name = "fast-api-penetration"
 version = "0.1.0"
 description = ""
 authors = ["kirill <k.otvetchikov@zebrains.team>"]
 readme = "README.md"
+packages = [{include = "fast_api_penetration"}]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-fastapi = "^0.98.0"
-uvicorn = "^0.22.0"
-sqlalchemy = "^2.0.19"
+fastapi = "^0.103.1"
 loguru = "^0.7.0"
-pytest = "^7.4.0"
+sqlalchemy = "^2.0.20"
+uvicorn = "^0.23.2"
+pydantic = "^2.3.0"
+fastapi-users = {extras = ["sqlalchemy"], version = "^12.1.2"}
 httpx = "^0.24.1"
-alembic = "^1.11.2"
 python-dotenv = "^1.0.0"
-asyncpg = "^0.28.0"
-fastapi-users = {extras = ["sqlalchemy"], version = "^12.1.1"}
+pytest = "^7.4.1"
 pytest-asyncio = "^0.21.1"
+alembic = "^1.12.0"
+asyncpg = "^0.28.0"
 
-[tool.pytest.ini_options]
-pythonpath = [
-    ".", "src",
-]
-asyncio_mode = "auto"
 
 [build-system]
 requires = ["poetry-core"]

@@ -4,7 +4,6 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from tests.services import create_user, clear_users
 
 
-# Как протестировать это?
 async def test_register_user_when_user_exist(async_client: AsyncClient):
     create_data = {
         'email': 'testmail@gmail.com',

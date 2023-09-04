@@ -9,12 +9,10 @@ class User(SQLAlchemyBaseUserTable[int], Base):
     """
     Модель пользователя для ДБ
     """
-    # поля нашего пользвоателя
     id = Column(Integer, primary_key=True, index=True)
     username = Column(String, nullable=False)
     name = Column(String, nullable=True)
     age = Column(Integer, nullable=True)
-    # поля библиотеки fastapi_users
     email: Mapped[str] = mapped_column(
         String(length=320), unique=True, index=True, nullable=False
     )
