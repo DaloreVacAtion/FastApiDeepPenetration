@@ -34,7 +34,7 @@ async def test_get_user_by_username_when_user_is_unauthorized(
         session: AsyncSession,
 ):
     response = await async_client.get('api/v1/users?username=test')
-    assert response.status_code == 401
+    assert response.status_code == status.HTTP_401_UNAUTHORIZED
 
 
 async def test_get_user_by_username_when_user_is_authorized(

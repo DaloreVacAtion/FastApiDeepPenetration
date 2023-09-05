@@ -1,5 +1,3 @@
-from typing import Optional
-
 from fastapi_users import schemas
 from pydantic import BaseModel, Field
 
@@ -14,9 +12,9 @@ class UserCreate(schemas.BaseUserCreate):
     age: int | None = Field(
         default=None, title='Возраст пользователя', gt=0,
     )
-    is_active: Optional[bool] = True
-    is_superuser: Optional[bool] = False
-    is_verified: Optional[bool] = False
+    is_active: bool | None = True
+    is_superuser: bool | None = False
+    is_verified: bool | None = False
 
 
 class UserUpdate(BaseModel):

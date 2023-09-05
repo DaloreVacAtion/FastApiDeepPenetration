@@ -1,7 +1,8 @@
 from httpx import AsyncClient
 from sqlalchemy.ext.asyncio import AsyncSession
+from starlette import status
 
-from tests.services import create_user, clear_users
+from services.users import create_user, clear_users
 
 
 async def test_register_user_when_user_exist(async_client: AsyncClient):
@@ -29,7 +30,7 @@ async def test_register_user_when_data_is_correct(async_client: AsyncClient):
     })
 
     response_data = response.json()
-    assert response.status_code == 201
+    assert response.status_code == status.HTTP_201_CREATED
     assert response_data.get('password') is None
 
 
@@ -42,7 +43,7 @@ async def test_login_with_bad_username(
         'username': 'incorrect_mail@gmail.com',
         'password': 'test123',
     })
-    assert response.status_code == 400
+    assert response.status_code == status.HTTP_400_BAD_REQUEST
     assert response.json().get('detail') == 'LOGIN_BAD_CREDENTIALS'
     await clear_users(session)
 
@@ -56,7 +57,7 @@ async def test_login_with_bad_password(
         'username': 'test_user@gmail.com',
         'password': 'incorrect_password',
     })
-    assert response.status_code == 400
+    assert response.status_code == status.HTTP_400_BAD_REQUEST
     assert response.json().get('detail') == 'LOGIN_BAD_CREDENTIALS'
     await clear_users(session)
 
@@ -70,4 +71,4 @@ async def test_login_success(
         'username': 'test_user@gmail.com',
         'password': 'test123',
     })
-    assert response.status_code == 204
+    assert response.status_code == status.HTTP_204_NO_CONTENT

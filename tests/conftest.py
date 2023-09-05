@@ -55,7 +55,6 @@ async def get_db():
         yield conn
 
 
-# SETUP
 @pytest.fixture(scope='session')
 def event_loop(request):
     """Create an instance of the default event loop for each test case."""
