@@ -6,17 +6,17 @@ from auth.schemas import UserUpdate
 
 
 async def delete_user(user: User, session: AsyncSession):
-    stmt = text(f'delete from public.user where public.user.id = {user.id}')
-    await session.execute(stmt)
+    statement = text(f'delete from public.user where public.user.id = {user.id}')
+    await session.execute(statement)
     await session.commit()
 
 
 async def update_user(user_id: int, user_in: UserUpdate, session: AsyncSession):
     update_data = user_in.dict(exclude_unset=True)
-    stmt = (
+    statement = (
         update(User).
         where(User.id == user_id).
         values(**update_data)
     )
-    await session.execute(stmt)
+    await session.execute(statement)
     await session.commit()
