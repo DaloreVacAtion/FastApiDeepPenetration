@@ -1,10 +1,11 @@
 import abc
 import datetime
 import logging
-from loguru import logger
+import structlog
 
 
 class LoggingBased(abc.ABC):
+
     def __init__(self, *args, **kwargs):
         self._logger = logging.getLogger(self.source_logging)
 
@@ -39,4 +40,4 @@ class LoggingRequests(LoggingBased):
         )
 
 
-logger = logger
+logger = structlog.get_logger()
