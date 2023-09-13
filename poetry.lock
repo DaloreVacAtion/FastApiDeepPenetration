@@ -769,6 +769,18 @@ build-docs = ["cloud-sptheme (>=1.10.1)", "sphinx (>=1.6)", "sphinxcontrib-fullt
 totp = ["cryptography"]
 
 [[package]]
+name = "pip"
+version = "23.2.1"
+description = "The PyPA recommended tool for installing Python packages."
+category = "main"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "pip-23.2.1-py3-none-any.whl", hash = "sha256:7ccf472345f20d35bdc9d1841ff5f313260c2c33fe417f48c30ac46cccabf5be"},
+    {file = "pip-23.2.1.tar.gz", hash = "sha256:fb0bd5435b3200c602b5bf61d2d43c2f13c02e29c1707567ae7fbc514eb9faf2"},
+]
+
+[[package]]
 name = "pluggy"
 version = "1.3.0"
 description = "plugin and hook calling mechanisms for python"
@@ -783,30 +795,6 @@ files = [
 [package.extras]
 dev = ["pre-commit", "tox"]
 testing = ["pytest", "pytest-benchmark"]
-
-[[package]]
-name = "polyfactory"
-version = "2.8.1"
-description = "Mock data generation factories"
-category = "main"
-optional = false
-python-versions = ">=3.8,<4.0"
-files = [
-    {file = "polyfactory-2.8.1-py3-none-any.whl", hash = "sha256:3f7525ffa6736181cf746d3c30063a953e6b566aec07e8b7268f52913a2838dd"},
-    {file = "polyfactory-2.8.1.tar.gz", hash = "sha256:2b947f6ae8df96cfbca0ba94a573a885e4291eb893c3eb5daa7c1efa3385834e"},
-]
-
-[package.dependencies]
-faker = "*"
-typing-extensions = "*"
-
-[package.extras]
-attrs = ["attrs"]
-beanie = ["beanie", "pydantic[email]"]
-full = ["attrs", "beanie", "msgspec", "odmantic", "pydantic[email]"]
-msgspec = ["msgspec"]
-odmantic = ["odmantic", "pydantic[email]"]
-pydantic = ["pydantic[email]"]
 
 [[package]]
 name = "pyasn1"
@@ -981,6 +969,23 @@ files = [
 
 [package.dependencies]
 typing-extensions = ">=4.6.0,<4.7.0 || >4.7.0"
+
+[[package]]
+name = "pydantic-factories"
+version = "1.17.3"
+description = "Mock data generation for pydantic based models and python dataclasses"
+category = "main"
+optional = false
+python-versions = ">=3.8,<4.0"
+files = [
+    {file = "pydantic_factories-1.17.3-py3-none-any.whl", hash = "sha256:5a1522a31d27e1af414719c510a4a934365292f3ea6fdc843ed65d0564242636"},
+    {file = "pydantic_factories-1.17.3.tar.gz", hash = "sha256:de36e0db7108af5f4328308da9a4049311c4d5e0814553d2f39078b08b05e48d"},
+]
+
+[package.dependencies]
+faker = "*"
+pydantic = ">=1.10.0"
+typing-extensions = "*"
 
 [[package]]
 name = "pydantic-settings"
@@ -1345,4 +1350,4 @@ dev = ["black (>=19.3b0)", "pytest (>=4.6.2)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "71f9087329c0cc7513d1841cf764a96068b7d6cd0651a99e1af4b40b0f9c0758"
+content-hash = "f718f86a97a4bf6b8971cad495b12878da2ef3b16b171f07edf9bcf7cb5f6b11"
