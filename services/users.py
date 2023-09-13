@@ -2,10 +2,9 @@ from datetime import timedelta, datetime
 
 from fastapi import HTTPException, Depends
 from fastapi.security import OAuth2PasswordBearer
-from httpx import AsyncClient
 from jose import jwt, JWTError
 from passlib.context import CryptContext
-from sqlalchemy import text, insert, select
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from starlette import status
 
@@ -43,38 +42,6 @@ async def get_user_by_username_for_login(username: str, session: AsyncSession) -
     users = await session.execute(select(User).where(User.username == username))
     user: UserRead = users.scalars().first()
     return user
-
-
-async def create_user(
-    session: AsyncSession,
-    username: str,
-    email: str,
-    password: str,
-    superuser: bool | None = None
-):
-    hashed_password = pwd_context.hash(password)
-    statement = insert(User).values(
-        username=username,
-        email=email,
-        age=15,
-        hashed_password=hashed_password,
-        is_active=True,
-        is_superuser=superuser if superuser else False,
-        is_verified=True,
-    )
-    await session.execute(statement)
-    await session.commit()
-    query = text(f'select * from public.user where public.user.email = \'{email}\'')
-    user = await session.execute(query)
-    return user.first()
-
-
-async def clear_users(
-    session: AsyncSession,
-):
-    statement = text(f'delete from public.user')
-    await session.execute(statement)
-    await session.commit()
 
 
 async def authenticate_user(
