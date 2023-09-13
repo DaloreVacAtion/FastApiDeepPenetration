@@ -13,14 +13,14 @@ from sqlalchemy.pool import NullPool
 from auth.base_config import auth_backend
 from auth.manager import get_user_manager
 from auth.models import User
-from config import DB_USER_TEST, DB_PASS_TEST, DB_HOST_TEST, DB_PORT_TEST, DB_NAME_TEST
+from core.config import settings
 from db.database import Base, get_async_session
 from main import app
 
 metadata = Base.metadata
 
 # DATABASE
-DATABASE_URL_TEST = f"postgresql+asyncpg://{DB_USER_TEST}:{DB_PASS_TEST}@{DB_HOST_TEST}:{DB_PORT_TEST}/{DB_NAME_TEST}"
+DATABASE_URL_TEST = settings.DB_TEST_URL
 
 engine_test = create_async_engine(DATABASE_URL_TEST, poolclass=NullPool)
 async_session_maker = sessionmaker(engine_test, class_=AsyncSession, expire_on_commit=False)

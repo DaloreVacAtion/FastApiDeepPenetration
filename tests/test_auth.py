@@ -39,12 +39,12 @@ async def test_login_with_bad_username(
         session: AsyncSession,
 ):
     await create_user(session, 'test_user', 'test_user@gmail.com', 'test123')
-    response = await async_client.post('api/v1/auth/login', data={
-        'username': 'incorrect_mail@gmail.com',
+    response = await async_client.post('api/v1/users/auth/token', data={
+        'username': 'incorrect_user',
         'password': 'test123',
     })
-    assert response.status_code == status.HTTP_400_BAD_REQUEST
-    assert response.json().get('detail') == 'LOGIN_BAD_CREDENTIALS'
+    assert response.status_code == status.HTTP_401_UNAUTHORIZED
+    assert response.json().get('detail') == 'Не смогли валидировать входящие данные.'
     await clear_users(session)
 
 
@@ -52,13 +52,13 @@ async def test_login_with_bad_password(
         async_client: AsyncClient,
         session: AsyncSession,
 ):
-    await create_user(session, 'test_user', 'test_user@gmail.com', 'test123')
-    response = await async_client.post('api/v1/auth/login', data={
-        'username': 'test_user@gmail.com',
+    user = await create_user(session, 'test_user', 'test_user@gmail.com', 'test123')
+    response = await async_client.post('api/v1/users/auth/token', data={
+        'username': user.username,
         'password': 'incorrect_password',
     })
-    assert response.status_code == status.HTTP_400_BAD_REQUEST
-    assert response.json().get('detail') == 'LOGIN_BAD_CREDENTIALS'
+    assert response.status_code == status.HTTP_401_UNAUTHORIZED
+    assert response.json().get('detail') == 'Не смогли валидировать входящие данные.'
     await clear_users(session)
 
 
@@ -66,9 +66,12 @@ async def test_login_success(
     async_client: AsyncClient,
     session: AsyncSession,
 ):
-    await create_user(session, 'test_user', 'test_user@gmail.com', 'test123')
-    response = await async_client.post('api/v1/auth/login', data={
-        'username': 'test_user@gmail.com',
+    user = await create_user(session, 'test_user', 'test_user@gmail.com', 'test123')
+    res = await async_client.post('api/v1/users/auth/token', data={
+        'username': user.username,
         'password': 'test123',
     })
-    assert response.status_code == status.HTTP_204_NO_CONTENT
+    assert res.status_code == 200
+    response = res.json()
+    assert {'access_token', 'token_type'}.issubset(set(response.keys()))
+    assert response['token_type'] == 'bearer'
