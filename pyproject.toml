@@ -25,7 +25,7 @@ pydantic-settings = "^2.0.3"
 python-jose = {extras = ["cryptography"], version = "^3.3.0"}
 jose = "^1.0.0"
 pip = "^23.2.1"
-pydantic-factories = "^1.17.3"
+polyfactory = "^2.8.1"
 
 
 [build-system]

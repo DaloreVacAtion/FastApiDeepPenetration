@@ -1,9 +1,7 @@
-from pydantic_factories import ModelFactory
+from polyfactory.factories.pydantic_factory import ModelFactory
 
 from auth.models import User
 
 
-class UserFactory(ModelFactory):
+class UserFactory(ModelFactory[User]):
     __model__ = User
-
-# Что-то не идёт...
