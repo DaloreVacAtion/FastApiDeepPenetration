@@ -35,8 +35,7 @@ async def update_user(
 ) -> UserRead:
     """Обновить пользователя."""
     user = await user_services.get_user_by_id(user_id, session)
-    await crud.update_user(user_id, user_in, session)
-    await session.refresh(user)
+    user = await crud.update_user(user, user_in, session)
     return user
 
 

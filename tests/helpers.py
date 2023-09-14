@@ -5,6 +5,7 @@ from starlette import status
 
 from auth.models import User
 from services.users import pwd_context
+from tests.factories import UserFactory
 
 
 async def get_user_token(ac: AsyncClient, username: str, password: str) -> str | None:
@@ -27,24 +28,33 @@ async def create_user(
     username: str,
     email: str,
     password: str,
-    superuser: bool | None = None
+    superuser: bool | None = None,
 ):
     hashed_password = pwd_context.hash(password)
-    statement = insert(User).values(
+    user = UserFactory.build(
         username=username,
         email=email,
-        age=15,
+        age=20,
         hashed_password=hashed_password,
         is_active=True,
         is_superuser=superuser if superuser else False,
         is_verified=True,
     )
-    await session.execute(statement)
-    await session.commit()
-    query = text(f'select * from public.user where public.user.email = \'{email}\'')
-    user = await session.execute(query)
-    return user.first()
-
+    # statement = insert(User).values(
+    #     username=username,
+    #     email=email,
+    #     age=15,
+    #     hashed_password=hashed_password,
+    #     is_active=True,
+    #     is_superuser=superuser if superuser else False,
+    #     is_verified=True,
+    # )
+    # await session.execute(statement)
+    # await session.commit()
+    # query = text(f'select * from public.user where public.user.email = \'{email}\'')
+    # user = await session.execute(query)
+    # return user.first()
+    return user
 
 async def clear_users(
     session: AsyncSession,

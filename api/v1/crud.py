@@ -1,22 +1,27 @@
-from sqlalchemy import select, update, text
+from sqlalchemy import select, update, text, delete
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from auth.models import User
-from auth.schemas import UserUpdate
+from auth.schemas import UserUpdate, UserRead
 
 
 async def delete_user(user: User, session: AsyncSession):
-    statement = text(f'delete from public.user where public.user.id = {user.id}')
+    statement = (
+        delete(User).
+        where(User.id == user.id)
+    )
     await session.execute(statement)
     await session.commit()
 
 
-async def update_user(user_id: int, user_in: UserUpdate, session: AsyncSession):
-    update_data = user_in.dict(exclude_unset=True)
+async def update_user(user: User, user_in: UserUpdate, session: AsyncSession) -> UserRead:
+    update_data = user_in.model_dump(exclude_unset=True)
     statement = (
         update(User).
-        where(User.id == user_id).
+        where(User.id == user.id).
         values(**update_data)
     )
     await session.execute(statement)
     await session.commit()
+    await session.refresh(user)
+    return user

@@ -19,10 +19,8 @@ from main import app
 
 metadata = Base.metadata
 
-# DATABASE
-DATABASE_URL_TEST = settings.DB_TEST_URL
 
-engine_test = create_async_engine(DATABASE_URL_TEST, poolclass=NullPool)
+engine_test = create_async_engine(settings.DB_TEST_URL, poolclass=NullPool)
 async_session_maker = sessionmaker(engine_test, class_=AsyncSession, expire_on_commit=False)
 metadata.bind = engine_test
 
