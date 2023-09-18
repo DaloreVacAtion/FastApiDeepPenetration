@@ -16,6 +16,7 @@ from auth.models import User
 from core.config import settings
 from db.database import Base, get_async_session
 from main import app
+from tests.factories import UserModelFactory
 
 metadata = Base.metadata
 
@@ -74,3 +75,8 @@ async def async_client() -> AsyncGenerator[AsyncClient, None]:
 async def async_session() -> AsyncGenerator[AsyncSession, None]:
     async with async_session_maker() as session:
         yield session
+
+
+@pytest.fixture(autouse=True)
+async def _setup_factories(session):
+    UserModelFactory.save_db_session(session=session)

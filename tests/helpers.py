@@ -1,17 +1,17 @@
 from httpx import AsyncClient
-from sqlalchemy import select, text, insert
+from sqlalchemy import select, text
 from sqlalchemy.ext.asyncio import AsyncSession
 from starlette import status
 
 from auth.models import User
 from services.users import pwd_context
-from tests.factories import UserFactory
+from tests.factories import UserModelFactory
 
 
 async def get_user_token(ac: AsyncClient, username: str, password: str) -> str | None:
     auth = await ac.post('api/v1/users/auth/token', data={
-        "username": username,
-        "password": password,
+        'username': username,
+        'password': password,
     })
     token = auth.json().get('access_token') if auth.status_code == status.HTTP_200_OK else None
     return token
@@ -25,36 +25,21 @@ async def get_user_by_id(user_id: int, session: AsyncSession) -> User | None:
 
 async def create_user(
     session: AsyncSession,
-    username: str,
-    email: str,
-    password: str,
-    superuser: bool | None = None,
+    **kwargs,
 ):
+    password = kwargs.pop('password')
     hashed_password = pwd_context.hash(password)
-    user = UserFactory.build(
-        username=username,
-        email=email,
+    user = UserModelFactory(
         age=20,
         hashed_password=hashed_password,
         is_active=True,
-        is_superuser=superuser if superuser else False,
+        is_superuser=kwargs.pop('superuser', False),
         is_verified=True,
+        **kwargs,
     )
-    # statement = insert(User).values(
-    #     username=username,
-    #     email=email,
-    #     age=15,
-    #     hashed_password=hashed_password,
-    #     is_active=True,
-    #     is_superuser=superuser if superuser else False,
-    #     is_verified=True,
-    # )
-    # await session.execute(statement)
-    # await session.commit()
-    # query = text(f'select * from public.user where public.user.email = \'{email}\'')
-    # user = await session.execute(query)
-    # return user.first()
+    await session.commit()
     return user
+
 
 async def clear_users(
     session: AsyncSession,
