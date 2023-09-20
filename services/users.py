@@ -48,7 +48,7 @@ async def authenticate_user(
         username: str,
         password: str,
         session: AsyncSession
-):
+) -> UserRead | None:
     user = await get_user_by_username_for_login(username, session)
     if not user:
         raise HTTPException(
@@ -63,14 +63,14 @@ async def authenticate_user(
     return user
 
 
-async def create_access_token(username: str, user_id: int, expires_at: timedelta | None = None):
+async def create_access_token(username: str, user_id: int, expires_at: timedelta | None = None) -> str:
     encode = {'sub': username, 'id': user_id}
     expires = datetime.utcnow() + (expires_at if expires_at else timedelta(minutes=20))
     encode.update({'exp': expires})
     return jwt.encode(encode, settings.AUTH_SECRET_KEY, algorithm='HS256')
 
 
-async def get_current_user(token: str = Depends(oauth2_bearer)):
+async def get_current_user(token: str = Depends(oauth2_bearer)) -> dict[str, str | int]:
     try:
         payload = jwt.decode(token, settings.AUTH_SECRET_KEY, algorithms=['HS256'])
         username: str = payload.get('sub')

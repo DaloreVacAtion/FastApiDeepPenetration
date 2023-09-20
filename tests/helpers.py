@@ -26,7 +26,7 @@ async def get_user_by_id(user_id: int, session: AsyncSession) -> User | None:
 async def create_user(
     session: AsyncSession,
     **kwargs,
-):
+) -> User:
     password = kwargs.pop('password')
     hashed_password = pwd_context.hash(password)
     user = UserModelFactory(
@@ -43,7 +43,7 @@ async def create_user(
 
 async def clear_users(
     session: AsyncSession,
-):
+) -> None:
     statement = text(f'delete from public.user')
     await session.execute(statement)
     await session.commit()

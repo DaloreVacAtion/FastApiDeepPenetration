@@ -1,12 +1,11 @@
 import asyncio
-from typing import AsyncGenerator
+from typing import AsyncGenerator, AsyncIterator
 
-import fastapi_users
 import pytest
 from fastapi.testclient import TestClient
 from fastapi_users import FastAPIUsers
 from httpx import AsyncClient
-from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
+from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, AsyncConnection
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import NullPool
 
@@ -40,7 +39,7 @@ app.dependency_overrides[get_async_session] = override_get_async_session
 
 
 @pytest.fixture(autouse=True, scope='session')
-async def prepare_database():
+async def prepare_database() -> None:
     async with engine_test.begin() as conn:
         await conn.run_sync(metadata.create_all)
     yield
@@ -49,7 +48,7 @@ async def prepare_database():
 
 
 @pytest.fixture(scope='session')
-async def get_db():
+async def get_db() -> AsyncIterator[AsyncConnection]:
     async with engine_test.begin() as conn:
         yield conn
 
@@ -78,5 +77,5 @@ async def async_session() -> AsyncGenerator[AsyncSession, None]:
 
 
 @pytest.fixture(autouse=True)
-async def _setup_factories(session):
+async def _setup_factories(session) -> None:
     UserModelFactory.save_db_session(session=session)

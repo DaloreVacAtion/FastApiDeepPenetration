@@ -54,7 +54,7 @@ async def delete_user(
 async def login_user_token(
     form_data: OAuth2PasswordRequestForm = Depends(),
     session: AsyncSession = Depends(get_async_session),
-):
+) -> dict[str, str]:
     user = await authenticate_user(form_data.username, form_data.password, session)
     token = await create_access_token(user.username, user.id)
     return {'access_token': token, 'token_type': 'bearer'}

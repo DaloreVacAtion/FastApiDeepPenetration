@@ -11,5 +11,5 @@ class UserManager(IntegerIDMixin, BaseUserManager[User, int]):
     verification_token_secret = settings.SECRET_KEY
 
 
-async def get_user_manager(user_db=Depends(get_user_db)):
+async def get_user_manager(user_db=Depends(get_user_db)) -> UserManager:
     yield UserManager(user_db)

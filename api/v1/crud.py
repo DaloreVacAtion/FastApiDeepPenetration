@@ -5,7 +5,7 @@ from auth.models import User
 from auth.schemas import UserUpdate, UserRead
 
 
-async def delete_user(user: User, session: AsyncSession):
+async def delete_user(user: User, session: AsyncSession) -> None:
     statement = (
         delete(User).
         where(User.id == user.id)
